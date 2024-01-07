@@ -1,7 +1,7 @@
 draw_text(3, 3, "Room:"+ room_get_name(room));
 draw_text(3, 20, "F1/F2 - Prev/Next Room");
 var _to = debug_mask ? "off" : "on";
-draw_text(3, 37, "F8 - Turn Debug "+ _to);
+draw_text(3, 37, "F3 - Turn Debug "+ _to);
 
 if debug_mask
 {

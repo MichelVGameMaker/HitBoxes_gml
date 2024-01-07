@@ -5,7 +5,7 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Hitbox BY MICHELV",
-    "path": "folders/Hitbox BY MICHELV.yy",
+    "name": "Dependencies",
+    "path": "folders/Hitbox BY MICHELV/Dependencies.yy",
   },
 }
