@@ -21,9 +21,12 @@ G2L is fully free. Do whatever you want with it.
 
 ## BEHIND THE HOOD:
 Hitlib relies on hitboxes, virtual sprite-shaped entities that deal damages upon collision with hurtable instances.  
-Hitboxes are struct entities. They are managed by 'controller' objects called Hitbox_manager.  
+Hit Boxes are struct entities. They are managed by 'controller' objects called Hitbox_manager.  
 Note that the same result could be achieved with independant objects.  
+
 Hitbox_manager objects are mainly there for processing collision and drawing the associated sprites (thus, there is one Hitbox_manager per layer, no matter the number of Hitboxes). If you make your Hit Boxes invisible, you should create all of them at the same depth.  
+
+Hurt Boxes are instances of the oHurtbox
 
 ## HOW TO INSTALL IN GAME MAKER YOUR PROJECT
 Download the 'Hit Boxes Package.yymps' file from GITHUB. (the other package is a simple demo if you want to try it out).  
@@ -39,11 +42,15 @@ They are located in the 'hitboxlib.gml' script asset under the section 'HitLib O
 - #macro __HITBOX_DEFAULT_HURTABLE  [oTarget_Par, oHurtbox]: the names of all 'Hurtable' Parent Objects. All their children will gain the ability to be hurt by Hit Boxes.
 
 ### Usage:
-There is no intialization function required. You can create hitboxes with hitbox_create() and then they are processed automatically.  
-For example, hitbox_create(x, y, sprite_slash) will create an hitbox that follows the calling instance (useful for a slash).  
+There is no intialization function required. You can create Hit Boxes with hitbox_create() and then they are processed automatically.  
+For example, 
+- hitbox_create(x, y, sprite_slash) will create an Hit Box that follows the calling instance (useful for a slash).  
+- hurtbox_create(sBig_Square) will create an Hit Box that follows the calling instance and its angle/scales with the sBig_Square mask.
+
 You need to manually  detroy your Hit Boxes. The best approach is to set destroy_on_end or a destroy_timer, but this might not be convenient for projectiles.
 
-### Parameters for hitbox_create:
+### Hit Box:
+#### Parameters for hitbox_create:
 | parameter          | default                  | details                                                                           |
 | ------------------ | ------------------------ | --------------------------------------------------------------------------------- |
 | x                  | no default               | x coordinate. mandatory.                                                          |
@@ -61,26 +68,11 @@ You need to manually  detroy your Hit Boxes. The best approach is to set destroy
 | visible            | true                     | if false, Hit Box is invisible.                                                   |
 | o_manager          | no default               | you can specify your own controller if you do not want to use the native one.     |
 
-### Additional parameters:
-You also can set some key parameters through setters methods: 
-- image_xscale, _image_yscale, image_angle. The sprite is used to detect collision, so angle and scales are important. Please note that if follow is enable, those variables will be overiddent each step.
-- collider: collider can be specified by Hit Box. If the line from the owning intance's origin to the hitbox's origin goes through a collider, the entity is not hurt.
-- follow position: the Hit Box will follow the owning intance: x, y coordinates. The relative position of the hitbox to the owner (upon creation) is kept while following.
-- Follow angle: the Hit Box will mimic the owning intance's shape attributes: scales and angles.
-- hurting: You will likely want to customize what happen when hurting an instance. You can do that in the Hit Bbox library if the hurt behavior is the same for all your Hit Boxes (reducing health points for instance).
-    You can also add Hit Box specific features through call back functions hurt_func and hit_func.
-- destruction: can be triggered on animation_end (if set to true) or after a timer (if timer is > 0) (I would advise to choose between the two and not let hitbox indefinitively alive).
-- accuracy: Hit Boxes hurt entities over their movements with a precision step of 8 pixels, you can adjust that if needed with the coll_accuracy variable.
-  > Please note it is the Hit Box that hurts the entity when moving.
-  > It is ok to have quickly moving Hit Boxes. But it is not designed to cover quickly moving target entities going through the Hit Box
-  > If an entity is moving quickly enough to go through the Hit Box (such as it is not colliding before movement and not colliding after movement) it will not trigger.
-- image_alpha, image_blend, image_speed variables can also be managed through setters.
-
-### ASSOCIATED SETTERS (and 2 getters)
+### Associated Setters (and 2 getters)
 - get_properties      (_name)                	  get the properties struct.
 - get_property        (_name)                	  get one specific property by its name.
-- set_active          (_active, _reset = true)    set the active state. When disable, Hit Box is visible (drawn) but does not process its instructions (moves and hurts). 
-- set_paused          (_bool = true)         	  not implemented yet. Use set_active
+- set_active          (_active, _reset = true)    set the active state. When disable, Hit Box is visible (drawn) but does not process its instructions (moves, animates and hurts). 
+- set_paused          (_bool = true)         	  set the paused state. When paused, Hit Box is visible (drawn) but does not process its instructions (moves, animates and hurts). 
 - set_hurting         (_hurting)             	  set the hurting state. When disable, Hit Box moves and hit (hit_func) but does not hurt (hurt_func).
 - set_speed_x         (_vel)                 	  set the horizontal speed. Ignored if follow_position is enabled.
 - set_speed_y         (_vel)                 	  set the vertical speed. Ignored if follow_position is enabled.
@@ -100,6 +92,33 @@ You also can set some key parameters through setters methods:
 - set_hit_function    (_hit_function)        	  set the hit function(), it is called with the id of the hit instance as argument hit_func(hit_id).
 - set_collide_function(_col_function)        	  not implemented
 - set_can_hit_object  (_can_hit)             	  set the objects that can be hit. Uses an array of object index.
+
+### Additional Hit Box details:
+You also can set some key parameters through setters methods: 
+- image_xscale, _image_yscale, image_angle. The sprite is used to detect collision, so angle and scales are important. Please note that if follow is enable, those variables will be overiddent each step.
+- collider: collider can be specified by Hit Box. If the line from the owning intance's origin to the hitbox's origin goes through a collider, the entity is not hurt.
+- follow position: the Hit Box will follow the owning intance: x, y coordinates. The relative position of the hitbox to the owner (upon creation) is kept while following.
+- Follow angle: the Hit Box will mimic the owning intance's shape attributes: scales and angles.
+- hurting: You will likely want to customize what happen when hurting an instance. You can do that in the Hit Bbox library if the hurt behavior is the same for all your Hit Boxes (reducing health points for instance).
+    You can also add Hit Box specific features through call back functions hurt_func and hit_func.
+- destruction: can be triggered on animation_end (if set to true) or after a timer (if timer is > 0) (I would advise to choose between the two and not let hitbox indefinitively alive).
+- accuracy: Hit Boxes hurt entities over their movements with a precision step of 8 pixels, you can adjust that if needed with the coll_accuracy variable.
+  > Please note it is the Hit Box that hurts the entity when moving.
+  > It is ok to have quickly moving Hit Boxes. But it is not designed to cover quickly moving target entities going through the Hit Box
+  > If an entity is moving quickly enough to go through the Hit Box (such as it is not colliding before movement and not colliding after movement) it will not trigger.
+- image_alpha, image_blend, image_speed variables can also be managed through setters.
+
+### Hurt Box:
+#### Parameters for hitbox_create:
+| parameter          | default                  | details                                                                           |
+| ------------------ | ------------------------ | --------------------------------------------------------------------------------- |
+| x                  | caller's x               | x coordinate. mandatory.                                                          |
+| y                  | caller's y               | y coordinate. mandatory.                                                          |
+| sprite_index       | caller's mask            | sprite is used to detect collision. mandatory.                             |
+| owner              | calling instance         | owning instance.                                                                  |
+
+### Associated Setters
+
 */
 #endregion
 
@@ -113,9 +132,9 @@ You also can set some key parameters through setters methods:
 ///    ------------------------------------------------------------------------------------------------------------------------------------------
 ///        Creating Hurt Boxes
 ///    ------------------------------------------------------------------------------------------------------------------------------------------
-function hurtbox_create(_sprite_index = mask_index, _x = x, _y = y, _id = id)  {
+function hurtbox_create(_sprite_index = mask_index, _x = x, _y = y, _owner = id)  {
 	var _new_hurtbox = instance_create_depth(_x, _y, depth, oHurtbox)
-	_new_hurtbox.owner_set(_id);
+	_new_hurtbox.owner_set(_owner);
  	_new_hurtbox.mask_set(_sprite_index);
 	return _new_hurtbox;
 }
@@ -154,7 +173,7 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 	__manager       = _manager;                     // internal id to access the managing instance.
 	__destroyed     = false;                        // internal boolean used to trigger destruction.
 	__active        = true;                         // allow to de-activate (invisible and frozen).
-	paused          = false;                        // allow to pause animation and collision/step event.
+	__paused        = false;                        // allow to pause animation and collision/step event.
 	hurting         = true;                         // allow the damages to be dealt (with false, you can keep the hitbox active for visual purposed but prevent it to hurt entities).
 	// hurted variables                             
 	__life_timer    = 0;                            // integer counting steps of life for this struct.
@@ -374,8 +393,9 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 	/// @description    step function that will animate sprite, move hitbox, detect collision and hurt the colliding items
 	static step = function()                                      {
 	    // exceptions
-	    if !__active                         { exit; }
-	    if __destroyed                       { exit; }
+		if __destroyed                       { exit; }
+		if !__active                         { exit; }
+	    if __paused                          { exit; }
 	    if ( destroy_on_timer > 0 and -- destroy_on_timer <= 0 ) { destroy(); exit; }
 		// get older and clean hurt instances every 60 steps
 		__life_timer++;
@@ -476,6 +496,33 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 	static get_property        = function(_name)                  {
 		return variable_struct_get(__properties, _name);
 	}
+	static get_sprite_index    = function()                       {
+		return sprite_index;
+	}
+	static get_image_index     = function()                       {
+		return image_index;
+	}
+	static get_image_xscale    = function()                       {
+		return image_xscale;
+	}
+	static get_image_yscale    = function()                       {
+		return image_yscale;
+	}
+	static get_image_angle     = function()                       {
+		return image_angle;
+	}
+	static get_image_speed     = function()                       {
+		return image_speed;
+	}
+	static get_image_alpha     = function()                       {
+		return image_alpha;
+	}
+	static get_image_blend     = function()                       {
+		return image_blend;
+	}
+	static get_visible         = function()                       {
+		return visible;
+	}
 	static set_active          = function(_active, _reset = true) {
 		__active  = _active;
 		visible   = _active
@@ -483,7 +530,7 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 		return self; 
 	}
 	static set_paused          = function(_bool = true)           {
-		paused = !paused; // does nothing
+		__paused = !__paused; // does nothing
 		return self; 
 	}  
 	static set_hurting         = function(_hurting)               {
@@ -621,6 +668,42 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 	}
 	static set_can_hit_object  = function(_can_hit)               {
 		__can_hit_obj = _can_hit;
+		return self; 
+	}
+	static set_sprite_index    = function(_asset)                 {
+		sprite_index = _asset;
+		return self; 
+	}
+	static set_image_index     = function(_frame)                 {
+		image_index  = _frame;
+		return self; 
+	}
+	static set_image_xscale    = function(_xscale)                {
+		image_xscale = _xscale;
+		return self; 
+	}
+	static set_image_yscale    = function(_yscale)                {
+		image_yscale = _yscale;
+		return self; 
+	}
+	static set_image_angle     = function(_angle)                 {
+		image_angle  = _angle;
+		return self; 
+	}
+	static set_image_speed     = function(_speed)                 {
+		image_speed  = 1;
+		return self; 
+	}
+	static set_image_alpha     = function(_alpha)                 {
+		image_alpha  = 1;
+		return self; 
+	}
+	static set_image_blend     = function(_blend)                 {
+		image_blend  = c_white;
+		return self; 
+	}
+	static set_visible         = function(_visible)               {
+		visible      = _visible;
 		return self; 
 	}
 	#endregion

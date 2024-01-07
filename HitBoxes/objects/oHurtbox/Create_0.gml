@@ -58,21 +58,23 @@ __step_mimic_follow    = function()                                     {
 	var _id = __owner;
 	if variable_instance_exists(_id, "sprite")
 	{
-		var _owner_angle  = _id.sprite.image_angle;
-		var _owner_xscale = _id.sprite.image_xscale;
-		var _owner_yscale = _id.sprite.image_yscale;
+		var _owner_angle        = _id.sprite.image_angle;
+		var _owner_xscale       = _id.sprite.image_xscale;
+		var _owner_yscale       = _id.sprite.image_yscale;
+		var _owner_image_index  = _id.sprite.image_index; 
 		}
 	else
 	{
-		var _owner_angle  = _id.image_angle;
-		var _owner_xscale = _id.image_xscale;
-		var _owner_yscale = _id.image_yscale;
+		var _owner_angle        = _id.image_angle;
+		var _owner_xscale       = _id.image_xscale;
+		var _owner_yscale       = _id.image_yscale;
+		var _owner_image_index  = _id.image_index;
 	}
 	// Mimic Shape
-	if ( __mimic_angle   ) image_angle  = _owner_angle  + __offset_image_angle;
-	if ( __mimic_xscale  ) image_xscale = _owner_xscale / __start_image_xscale;
-	if ( __mimic_yscale  ) image_yscale = _owner_yscale / __start_image_yscale;
-	// Mimic Position
+	if ( __mimic_angle        ) image_angle  = _owner_angle  + __offset_image_angle;
+	if ( __mimic_xscale       ) image_xscale = _owner_xscale / __start_image_xscale;
+	if ( __mimic_yscale       ) image_yscale = _owner_yscale / __start_image_yscale;
+	if ( __mimic_image_index  ) image_index  = _owner_image_index;
 	if ( !__follow_xy    ) exit;
 	if ( __follow_xscale )
 	{
@@ -207,6 +209,10 @@ mimic_yscale_enable    = function(_mimic)                               {
 	__mimic_yscale = _mimic;
 	return       self;
 }
+mimic_image_index_enable = function(_mimic)                            {
+	__mimic_image_index = _mimic;
+	return       self;
+}
 follow_xy_enable       = function(_follow)                              {
 	__follow_xy    = _follow;
 	return       self;
@@ -230,6 +236,7 @@ __owner               = noone;                                             // in
 __mimic_angle         = true;                                              // boolean		if true, angle changes applied to the owning instance are also applied to the Hurt Box (every begin step).
 __mimic_xscale        = true;                                              // boolean		if true, xscale changes applied to the owning instance are also applied to the Hurt Box (every begin step).
 __mimic_yscale        = true;                                              // boolean		if true, yscale changes applied to the owning instance are also applied to the Hurt Box (every begin step).
+__mimic_image_index   = true;                                              // boolean		if true, Hurt Box will stay have the same image_index as its owning instance, to synch-up animation (every begin step).
 __follow_xy           = true;                                              // boolean		if true, Hurt Box will follow owning instance's coordinates, every step. This allow to 'attach' the box to the instance and to follow movement
 __follow_angle        = true;                                              // boolean		if true, Hurt Box position rotates with owner's image_angle while following. Does nothing if follow_xy is false.
 __follow_xscale       = true;                                              // boolean		if true, Hurt Box position adjust to owner's image_xscale while following. Does nothing if follow_xy is false.
@@ -238,6 +245,7 @@ __offset_x            = 0;                                                 // re
 __offset_y            = 0;                                                 // real		y coordinate of the Hurt Box in the owning instance's coordinates referential (when owner has an image_angle of zero and image_xscale &  image_xscale of one).
 __offset_image_angle  = 0;                                                 // real		angle variation of the Hurt Box compared to the owning instance. (when owner has an image_angle of zero and image_xscale &  image_xscale of one).
 __offset_image_xscale = 1;                                                 // real		scale factor of the Hurt Box compared to the owning instance. (when owner has an image_angle of zero and image_xscale &  image_xscale of one).
+__offset_image_yscale = 1;                                                 // real		scale factor of the Hurt Box compared to the owning instance. (when owner has an image_angle of zero and image_xscale &  image_xscale of one).
 __offset_image_yscale = 1;                                                 // real		scale factor of the Hurt Box compared to the owning instance. (when owner has an image_angle of zero and image_xscale &  image_xscale of one).
 __start_image_xscale  = 1;                                                 // real		default scale factor of the owning instance. I got lazy to fix a bug with mimic scale.
 __start_image_yscale  = 1;                                                 // real		default scale factor of the owning instance. I got lazy to fix a bug with mimic scale.
