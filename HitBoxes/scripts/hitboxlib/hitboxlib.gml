@@ -68,30 +68,50 @@ You need to manually  detroy your Hit Boxes. The best approach is to set destroy
 | visible            | true                     | if false, Hit Box is invisible.                                                   |
 | o_manager          | no default               | you can specify your own controller if you do not want to use the native one.     |
 
-### Associated Setters (and 2 getters)
-- get_properties      (_name)                	  get the properties struct.
-- get_property        (_name)                	  get one specific property by its name.
-- set_active          (_active, _reset = true)    set the active state. When disable, Hit Box is visible (drawn) but does not process its instructions (moves, animates and hurts). 
-- set_paused          (_bool = true)         	  set the paused state. When paused, Hit Box is visible (drawn) but does not process its instructions (moves, animates and hurts). 
-- set_hurting         (_hurting)             	  set the hurting state. When disable, Hit Box moves and hit (hit_func) but does not hurt (hurt_func).
-- set_speed_x         (_vel)                 	  set the horizontal speed. Ignored if follow_position is enabled.
-- set_speed_y         (_vel)                 	  set the vertical speed. Ignored if follow_position is enabled.
-- set_owner           (_owner, _do_offset)   	  set the owner. If _do_offset is true, the position offset is updated.
-- set_rehurt_timing   (_timing)              	  set the required elapsed time (in steps) for the Hit Box to hurt the same entity twice.
-- set_mono_hurt       (_mono)                	  when true, the rehurt_timing is set to infinity.
-- set_follow_angle    (_follow)              	  set the follow behavior, if true Hit Boxes will mimic owning intance's shape attributes: scales and angles.
-- set_follow_position (_follow)              	  set the follow behavior, if true Hit Boxes will follow the owning intance. The relative position of the hitbox to the owner (upon creation) is kept while following.
-- set_coll_accuracy   (_accuracy)            	  set the collision accuracy for moving Hit Boxes.
-- set_collider        (_collider)            	  set the colliding instance that will disable the Hit Box.
-- set_destroy_on_timer(_timer)               	  when >0, Hit Box is destroyed after this time (in steps). 
-- set_destroy_on_end  (_destroy)             	  when true, Hit Box is destroyed on animation end.
-- set_destroy_on_hit  (_destroy)             	  not implemented
-- set_property        (_name, _value)        	  set a specific property into the properties struct.
-- set_damages         (_damages)             	  set the damage attribute.
-- set_hurt_function   (_hurt_function)       	  set the hurt function(), it is passed as an argument to the instance's method called by the hit instance. hurt(damages, owner, properties, __hurt_func)
-- set_hit_function    (_hit_function)        	  set the hit function(), it is called with the id of the hit instance as argument hit_func(hit_id).
-- set_collide_function(_col_function)        	  not implemented
-- set_can_hit_object  (_can_hit)             	  set the objects that can be hit. Uses an array of object index.
+### Associated Getters
+- is_active                                         get the active state. Destroyed HitBox are considere inacative.                                        
+- is_paused                                         get the paused state.                                        
+- get_owner                                         get the owning instance                                        
+- get_sprite_index                                  get the sprite_index. 
+- get_image_index                                   get the image_index. 
+- get_image_xscale                                  get the image_xscale. 
+- get_image_yscale                                  get the image_yscale. 
+- get_image_angle                                   get the image_angle. 
+- get_image_speed                                   get the image_speed. 
+- get_image_alpha                                   get the image_alpha. 
+- get_image_blend                                   get the image_blend. 
+- get_visible                                       get the visibility.
+
+### Associated Setters
+- set_paused              (_bool = true)         	set the paused state. When paused, Hit Box is visible (drawn) but does not process its instructions (moves, animates and hurts). 
+- set_hurting             (_hurting)             	set the hurting state. When disable, Hit Box moves and hit (hit_func) but does not hurt (hurt_func).
+- set_speed_x             (_vel)                 	set the horizontal speed. Ignored if follow_position is enabled.
+- set_speed_y             (_vel)                 	set the vertical speed. Ignored if follow_position is enabled.
+- set_owner               (_owner, _do_offset)   	set the owner. If _do_offset is true, the position offset is updated.
+- set_mono_hurt           (_mono)                	when true, the rehurt_timing is set to infinity.
+- set_rehurt_timing       (_timing)              	set the required elapsed time (in steps) for the Hit Box to hurt the same entity twice.
+- set_follow_angle        (_follow)              	set the follow behavior, if true Hit Boxes will mimic owning intance's shape attributes: scales and angles.
+- set_follow_position     (_follow)              	set the follow behavior, if true Hit Boxes will follow the owning intance. The relative position of the hitbox to the owner (upon creation) is kept while following.
+- set_coll_accuracy       (_accuracy)            	set the collision accuracy for moving Hit Boxes.
+- set_collider            (_collider)            	set the colliding instance that will disable the Hit Box.
+- set_destroy_on_timer    (_timer)               	when >0, Hit Box is destroyed after this time (in steps). 
+- set_destroy_on_end      (_destroy)             	when true, Hit Box is destroyed on animation end.
+- set_destroy_on_hit      (_destroy)             	not implemented
+- set_property            (_name, _value)        	set a specific property into the properties struct.
+- set_damages             (_damages)             	set the damage attribute.
+- set_hurt_function       (_hurt_function)       	set the hurt function(), it is passed as an argument to the instance's method called by the hit instance. hurt(damages, owner, properties, __hurt_func)
+- set_hit_function        (_hit_function)        	set the hit function(), it is called with the id of the hit instance as argument hit_func(hit_id).
+- set_collide_function    (_col_function)        	not implemented
+- set_can_hit_object      (_can_hit)             	set the objects that can be hit. Uses an array of object index.
+- static set_sprite_index (_asset)					set the sprite_index, used for collision detection. 
+- static set_image_index  (_frame)					set the image_index, used for collision detection. 
+- static set_image_xscale (_xscale)					set the image_xscale, used for collision detection. 
+- static set_image_yscale (_yscale)					set the image_yscale, used for collision detection. 
+- static set_image_angle  (_angle)					set the image_angle, used for collision detection. 
+- static set_image_speed  (_speed)					set the image_speed, used for collision detection. 
+- static set_image_alpha  (_alpha)					set the image_alpha, used for collision detection. 
+- static set_image_blend  (_blend)					set the image_blend, used for collision detection. 
+- static set_visible      (_visible)				set the visibility. 
 
 ### Additional Hit Box details:
 You also can set some key parameters through setters methods: 
@@ -117,9 +137,29 @@ You also can set some key parameters through setters methods:
 | sprite_index       | caller's mask            | sprite is used to detect collision. mandatory.                             |
 | owner              | calling instance         | owning instance.                                                                  |
 
-### Associated Setters
+### Associated GSetters
+owner_exists                                        test if the owning instance exists.
+owner_get                                           get the owning instance.
 
+### Associated Setters
+owner_set (_instance, _do_offset = true) 
+- mask_set                (_sprite)                 set the mask_index. Current scales, angles and positions are kept.
+- angle_set               (_angle)                  set the angle, that will refresh the attachment position so that Hurt Box is now attached like it is when calling this function.
+- xscale_set              (_scale)                  set the xscale, that will refresh the attachment position so that Hurt Box is now attached like it is when calling this function.
+- yscale_set              (_scale)                  set the yscale, that will refresh the attachment position so that Hurt Box is now attached like it is when calling this function.
+- position_set            (_x, _y, _do_offset)      set the position,  that will refresh the attachment position so that Hurt Box is now attached like it is when calling this function.
+- attachment_set          (_x, _y)                  set user-defined x-y attachment. Parameters should be passed in the owner's referential = considering owner has a default angle and scales (angle = 0, scales = 1) = how the owner'sprite appears in the Sprite editor.
+- shape_set               (_xfac, _yfac, _angle)    set user-defined scales and angle. Parameters should be passed in the owner's referential = considering owner has a default angle and scales (angle = 0, scales = 1) = how the owner'sprite appears in the Sprite editor.
+- mimic_angle_enable      (_mimic)                  set the mimicing behavior dealing with owning instance's angle.
+- mimic_xscale_enable     (_mimic)                  set the mimicing behavior dealing with owning instance's xscale.
+- mimic_yscale_enable     (_mimic)                  set the mimicing behavior dealing with owning instance's yscale.
+- mimic_image_index_enable(_mimic)                  set the mimicing behavior dealing with owning instance's image_index.
+- follow_xy_enable        (_follow)                 set the following behavior dealing with owning instance's coordinates.
+- follow_angle_enable     (_follow)                 set the following behavior dealing with owning instance's angle.
+- follow_xscale_enable    (_follow)                 set the following behavior dealing with owning instance's xscale.
+- follow_yscale_enable    (_follow)                 set the following behavior dealing with owning instance's yscale.
 */
+
 #endregion
 
 ///    ------------------------------------------------------------------------------------------------------------------------------------------
@@ -489,8 +529,18 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 	}
 	#endregion
 	
-	#region Getters and Setters - can be chained
-	static get_properties      = function(_name)                  {
+	#region Getters
+	static is_active           = function()                       {
+		if __destroyed return false;
+		return __active;
+	}
+	static is_paused           = function()                       {
+		return __paused;
+	}  
+	static get_owner           = function()                       {
+		return __owner; 
+	}
+	static get_properties      = function()                       {
 		return __properties;
 	}
 	static get_property        = function(_name)                  {
@@ -523,6 +573,9 @@ function __hitbox_struct(_x, _y, _sprite_index, _owner = id, _follow = true, _da
 	static get_visible         = function()                       {
 		return visible;
 	}
+	#endregion
+	
+	#region Setters - can be chained
 	static set_active          = function(_active, _reset = true) {
 		__active  = _active;
 		visible   = _active

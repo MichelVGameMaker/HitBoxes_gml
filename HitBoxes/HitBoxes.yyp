@@ -85,11 +85,11 @@
   "Folders": [
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Demo","folderPath":"folders/Demo.yy","order":0,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Hurtable","folderPath":"folders/Demo/Hurtable.yy","order":17,},
+    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Kicker","folderPath":"folders/Demo/Kicker.yy","order":15,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Slasher","folderPath":"folders/Demo/Slasher.yy","order":16,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Trap","folderPath":"folders/Demo/Slasher/Trap.yy","order":8,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Hitbox BY MICHELV","folderPath":"folders/Hitbox BY MICHELV.yy","order":1,},
     {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Dependencies","folderPath":"folders/Hitbox BY MICHELV/Dependencies.yy","order":3,},
-    {"resourceType":"GMFolder","resourceVersion":"1.0","name":"Kicker","folderPath":"folders/Demo/Kicker.yy","order":15,},
   ],
   "AudioGroups": [
     {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
