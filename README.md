@@ -1,5 +1,7 @@
 # Hit Boxes Library
- *manage Hit Boxes and Hurt Boxes.*  
+![Hit Boxes Demo](https://github.com/MichelVGameMaker/HitBoxes_gml/assets/62699812/bb361f54-6a72-45d7-8caf-7c4bfc8a06ae)  
+*manage Hit Boxes and Hurt Boxes.*  
+
 
 
 ## WELCOME!
