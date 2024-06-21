@@ -5,7 +5,7 @@
 
 
 ## WELCOME!
-HitLib is a library I have built over 2 projects to process hiting/hurting enemies or other entities called 'hurtable'. The library comes with many options and is quite ok... I think. HitLib is a library I have built over 2 projects to process hiting/hurting enemies or other entities called 'hurtable'. The library comes with many options and is quite ok... I think.
+HitLib is a library I have built over 2 projects to process hiting/hurting enemies or other entities called 'hurtable'. The library comes with many options and is quite ok... I think.
 
 ## FEATURES:
 - add Hurtable behavior by parenting or attach Hurt Boxes to instances. 
