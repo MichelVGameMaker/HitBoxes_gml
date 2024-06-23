@@ -9,22 +9,21 @@ HitLib is a library I have built over 2 projects to process hiting/hurting enemi
 
 ## FEATURES:
 - add Hurtable behavior by parenting or attach Hurt Boxes to instances. 
-- adjust how Hurt Bowes follow / mimic their 'owning' instances.
-- create Hit Boxes with hitbox_create() function.
-- adjust how Hit Bowes follow / mimic their 'owninh' instance.
-- add speed to Hit Boxes, manage high speed movement collision. 
-- cancel Hit Boxes on collision with walls.
+- create Hit Boxes with the hitbox_create() function, they are automatically managed (but need you to specify their destruction condition).  
+- ability to adjust how Hit Boxes and Hurt Boxes follow / mimic their 'owning' instance.
+- Hit Boxes can have speed, and the library manages high speed movement collision. 
+- ability to cancel Hit Boxes on collision with walls.
 - customize parameters (damages, attack types, callback function...) to fit your game features.
 
 ## LICENSE:
 G2L is fully free. Do whatever you want with it.
 
 ## BEHIND THE HOOD:
-Hitlib relies on hitboxes, virtual sprite-shaped entities that deal damages upon collision with hurtable instances.  
+Hitlib relies on hitboxes, virtual sprite-shaped entities, that deal damages upon collision with hurtable instances.  
 Hit Boxes are struct entities. They are managed by 'controller' objects called Hitbox_manager.  
 Note that the same result could be achieved with independant objects.  
 
-Hitbox_manager objects are mainly there for processing collision and drawing the associated sprites (thus, there is one Hitbox_manager per layer, no matter the number of Hitboxes). If you make your Hit Boxes invisible, you should create all of them at the same depth.  
+Hitbox_manager objects are mainly there for processing collision and drawing the associated sprites (drawing requires one Hitbox_manager per layer, no matter the number of Hitboxes). If you your Hit Boxes are invisible, you should create all of them at the same depth.  
 
 Hurt Boxes are instances of the oHurtbox
 
@@ -38,8 +37,8 @@ This will create one folder in your Asset Browser labeled â€œHitbox BY MICHELVâ€
 ### Configuration: 
 There are two macro you need to set to interface 'HitBoxes' with your code.
 They are located in the 'hitboxlib.gml' script asset under the section 'HitLib Options'.
-- #macro __HITLIB_DEFAULT_COLLIDER  oColliderTest: the name of a Collider / Solid Parent Object. Children will bloc Hit Boxes.
-- #macro __HITBOX_DEFAULT_HURTABLE  [oTarget_Par, oHurtbox]: the names of all 'Hurtable' Parent Objects. All their children will gain the ability to be hurt by Hit Boxes.
+- #macro __HITLIB_DEFAULT_COLLIDER  oColliderTest: the name of a Collider / Solid Parent Object. This Object and all its Children will bloc Hit Boxes.  
+- #macro __HITBOX_DEFAULT_HURTABLE  [oTarget_Par, oHurtbox]: the names of all 'Hurtable' Parent Objects. These Objects and all their Children will gain the ability to be hurt by Hit Boxes.
 
 ### Usage:
 There is no intialization function required. You can create Hit Boxes with hitbox_create() and then they are processed automatically.  
